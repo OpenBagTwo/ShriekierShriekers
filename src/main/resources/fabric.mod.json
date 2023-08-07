@@ -1,0 +1,31 @@
+{
+	"schemaVersion": 1,
+	"id": "shriekier-shriekers",
+	"version": "${version}",
+	"name": "Shriekier Shriekers",
+	"description": "Patches sculk shriekers so that they react to redstone-triggered signals",
+	"authors": [
+		"OpenBagTwo"
+	],
+	"contact": {
+		"homepage": "https://github.com/OpenBagTwo/ShriekierShriekers",
+		"sources": "https://github.com/OpenBagTwo/ShriekierShriekers",
+        "issues": "https://github.com/OpenBagTwo/ShriekierShriekers/issues"
+	},
+	"license": "AGPL-3.0-only",
+	"icon": "assets/shriekier-shriekers/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"io.github.openbagtwo.shkrieker.ShriekerMod"
+		]
+	},
+	"mixins": [
+		"shriekier-shriekers.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.14.21",
+		"minecraft": "~1.20.1",
+		"java": ">=17"
+	}
+}
