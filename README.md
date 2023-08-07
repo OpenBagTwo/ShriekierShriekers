@@ -3,7 +3,7 @@
 ![server mod](https://img.shields.io/badge/Server\/Client-server-critical)
 ![mod loader: fabric](https://img.shields.io/badge/Mod_Loader-fabric-dbd0b4)
 [![build status](https://github.com/OpenBagTwo/ShriekierShriekers/actions/workflows/build.yml/badge.svg)](https://github.com/OpenBagTwo/ShriekierShriekers/actions/workflows/build.yml)
-![supported versions](https://img.shields.io/badge/Supported_Versions-1.20.1-blue)
+![supported versions](https://img.shields.io/badge/Supported_Versions-1.20-blue)
 [![Modrinth Downloads](https://img.shields.io/modrinth/dt/shriekier-shriekers)](https://modrinth.com/mod/shriekier-shriekers)
 
 ![logo](_static/logo_big.png)
