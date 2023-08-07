@@ -28,10 +28,8 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
           distribution: 'temurin'  # is there a reason Fabric uses Microsoft?
-      - name: make gradle wrapper executable
-        run: chmod +x ./gradlew
       - name: build
-        run: ./gradlew build
+        run: sh gradlew build
       - name: capture build artifacts
         uses: actions/upload-artifact@v3
         with:
