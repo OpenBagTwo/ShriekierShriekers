@@ -3,7 +3,8 @@
 	"package": "io.github.openbagtwo.shkrieker.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"ShriekerMixin"
+		"ShriekerMixin",
+		"ShriekerVibeMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
