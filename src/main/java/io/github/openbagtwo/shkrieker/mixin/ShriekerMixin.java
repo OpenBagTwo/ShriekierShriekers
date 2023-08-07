@@ -11,9 +11,11 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.gen.Accessor;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(SculkShriekerBlockEntity.class)
 public abstract class ShriekerMixin extends BlockEntity {
@@ -29,14 +31,12 @@ public abstract class ShriekerMixin extends BlockEntity {
   @Shadow
   abstract void shriek(ServerWorld world, @Nullable Entity entity);
 
-  @Shadow
-  abstract boolean canWarn(ServerWorld world);
-
-  @Shadow
-  abstract boolean trySyncWarningLevel(ServerWorld world, ServerPlayerEntity player);
-
-  @Overwrite
-  public void shriek(ServerWorld world, @Nullable ServerPlayerEntity player) {
+  @Inject(
+      method="shriek(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/server/network/ServerPlayerEntity;)V",
+      at=@At("HEAD"),
+      cancellable = true
+  )
+  public void nonPlayerShriek(ServerWorld world, @Nullable ServerPlayerEntity player, CallbackInfo callbackInfo) {
     BlockState blockState = ((SculkShriekerBlockEntity)(Object)this).getCachedState();
     if (blockState.get(SculkShriekerBlock.SHRIEKING).booleanValue()) {
       return;
@@ -44,11 +44,7 @@ public abstract class ShriekerMixin extends BlockEntity {
     this.setWarningLevel(0);
     if (player == null){
       this.shriek(world, (Entity) null);
-      return;
+      callbackInfo.cancel();
     }
-    if (this.canWarn(world) && !this.trySyncWarningLevel(world, player)) {
-      return;
-    }
-    this.shriek(world, (Entity)player);
   }
 }
