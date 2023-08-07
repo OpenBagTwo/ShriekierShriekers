@@ -29,6 +29,9 @@ public abstract class ShriekerMixin extends BlockEntity {
   abstract void setWarningLevel(int level);
 
   @Shadow
+  abstract boolean canWarn(ServerWorld world);
+
+  @Shadow
   abstract void shriek(ServerWorld world, @Nullable Entity entity);
 
   @Inject(
@@ -37,14 +40,16 @@ public abstract class ShriekerMixin extends BlockEntity {
       cancellable = true
   )
   public void nonPlayerShriek(ServerWorld world, @Nullable ServerPlayerEntity player, CallbackInfo callbackInfo) {
-    BlockState blockState = ((SculkShriekerBlockEntity)(Object)this).getCachedState();
-    if (blockState.get(SculkShriekerBlock.SHRIEKING).booleanValue()) {
-      return;
-    }
-    this.setWarningLevel(0);
-    if (player == null){
-      this.shriek(world, (Entity) null);
-      callbackInfo.cancel();
+    if (!this.canWarn(world)) {
+      BlockState blockState = ((SculkShriekerBlockEntity) (Object) this).getCachedState();
+      if (blockState.get(SculkShriekerBlock.SHRIEKING).booleanValue()) {
+        callbackInfo.cancel();
+      }
+      this.setWarningLevel(0);
+      if (player == null) {
+        this.shriek(world, (Entity) null);
+        callbackInfo.cancel();
+      }
     }
   }
 }
