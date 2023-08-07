@@ -6,7 +6,7 @@
 ![supported versions](https://img.shields.io/badge/Supported_Versions-1.20.1-blue)
 [![Modrinth Downloads](https://img.shields.io/modrinth/dt/shriekier-shriekers)](https://modrinth.com/mod/shriekier-shriekers)
 
-![logo](_static/logo.png)
+![logo](_static/logo_big.png)
 
 _**Patches sculk shriekers so that they react to redstone-triggered signals**_
 
