@@ -3,7 +3,7 @@
 ![server mod](https://img.shields.io/badge/Server\/Client-server-critical)
 ![mod loader: fabric](https://img.shields.io/badge/Mod_Loader-fabric%2Fquilt-a4cc37)
 [![build status](https://github.com/OpenBagTwo/ShriekierShriekers/actions/workflows/build.yml/badge.svg)](https://github.com/OpenBagTwo/ShriekierShriekers/actions/workflows/build.yml)
-![supported versions](https://img.shields.io/badge/Supported_Versions-1.20,1.20.1-blue)
+![supported versions](https://img.shields.io/badge/Supported_Versions-1.20--1.20.5-blue)
 [![Modrinth Downloads](https://img.shields.io/modrinth/dt/shriekier-shriekers)](https://modrinth.com/mod/shriekier-shriekers)
 
 _**Patches sculk shriekers so that they react to redstone-triggered signals**_
@@ -38,10 +38,11 @@ Future updates may include the ability to configure this mod:
 For multiplayer, this mod only needs to be installed **server-side**, and, assuming no other mods
 are installed on the server, is confirmed working for vanilla clients.
 
-There is currently only one build for this mod, which has been verified to be compatible with
-Minecraft 1.20 and 1.20.1. It may also be compatible with future versions and snapshots (if you
-find that it isn't, please
-[file a bug report!](https://github.com/OpenBagTwo/ShriekierShriekers/issues/new)).
+There are currently two builds for this mod:
+- The 1.20.1 version has been verified to be compatible with Minecraft 1.20, 1.20.1 and 1.20.4,
+- The 1.20.5 version has been verified working with 1.20.5-rc2. It may also be compatible with
+  future versions and  snapshots (if you find that it isn't, please
+  [file a bug report!](https://github.com/OpenBagTwo/ShriekierShriekers/issues/new)).
 
 There are no current plans to backport this mod to 1.19-1.19.4, but I'll do it upon request
 ([open an issue](https://github.com/OpenBagTwo/ShriekierShriekers/issues/new)!)
