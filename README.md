@@ -3,7 +3,7 @@
 ![server mod](https://img.shields.io/badge/Server\/Client-server-critical)
 ![mod loader: fabric](https://img.shields.io/badge/Mod_Loader-fabric%2Fquilt-a4cc37)
 [![build status](https://github.com/OpenBagTwo/ShriekierShriekers/actions/workflows/build.yml/badge.svg)](https://github.com/OpenBagTwo/ShriekierShriekers/actions/workflows/build.yml)
-![supported versions](https://img.shields.io/badge/Supported_Versions-1.20--1.20.5-blue)
+![supported versions](https://img.shields.io/badge/Supported_Versions-1.20--1.21.2-blue)
 [![Modrinth Downloads](https://img.shields.io/modrinth/dt/shriekier-shriekers)](https://modrinth.com/mod/shriekier-shriekers)
 
 _**Patches sculk shriekers so that they react to redstone-triggered signals**_
@@ -40,7 +40,7 @@ are installed on the server, is confirmed working for vanilla clients.
 
 There are currently two builds for this mod:
 - The 1.20.1 version has been verified to be compatible with Minecraft 1.20, 1.20.1 and 1.20.4,
-- The 1.20.5 version has been verified working with 1.20.5-rc2. It may also be compatible with
+- The 1.20.5 version has been verified working with 1.20.5-1.21.2. It may also be compatible with
   future versions and  snapshots (if you find that it isn't, please
   [file a bug report!](https://github.com/OpenBagTwo/ShriekierShriekers/issues/new)).
 
