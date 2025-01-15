@@ -25,9 +25,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(SculkShriekerBlockEntity.class)
 public abstract class ShriekerMixin extends BlockEntity {
 
+  private final boolean causeDarkness;
+
   public ShriekerMixin(BlockEntityType<?> type,
       BlockPos pos, BlockState state) {
     super(type, pos, state);
+    this.causeDarkness = Config.loadConfiguration().getCauseDarkness();
   }
 
   @Accessor("warningLevel")
@@ -57,7 +60,7 @@ public abstract class ShriekerMixin extends BlockEntity {
       this.setWarningLevel(0);
       if (player == null) {
         this.shriek(world, (Entity) null);
-        if (Config.loadConfiguration().getCauseDarkness()) {
+        if (this.causeDarkness) {
           this.playWarningSound(world);
           WardenEntity.addDarknessToClosePlayers(world, Vec3d.ofCenter(this.getPos()), (Entity) null,
               40);
