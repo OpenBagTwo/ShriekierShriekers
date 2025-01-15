@@ -1,6 +1,7 @@
 plugins {
 	id 'fabric-loom' version '1.6-SNAPSHOT'
 	id "fr.brouillard.oss.gradle.jgitver" version "0.9.1"
+	id 'com.github.johnrengelman.shadow' version '8.1.1'
 	id 'maven-publish'
 }
 
@@ -26,11 +27,9 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	
-	// Uncomment the following line to enable the deprecated Fabric API modules. 
-	// These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.
 
-	// modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
+	compileOnly "org.yaml:snakeyaml:2.2"
+	shadow(implementation("org.yaml:snakeyaml:2.2"))
 }
 
 processResources {
@@ -59,6 +58,18 @@ jar {
 	from("LICENSE") {
 		rename { "${it}_${project.base.archivesName.get()}"}
 	}
+}
+
+
+shadowJar {
+	configurations = [project.configurations.shadow]
+	archiveClassifier.set("dev")
+	relocate "org.yaml", "{${project.maven_group}.${project.archivesBaseName}.shadow.org.yaml"
+}
+
+remapJar {
+	dependsOn(shadowJar)
+	inputFile = tasks.shadowJar.archiveFile
 }
 
 jgitver {
