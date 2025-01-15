@@ -115,7 +115,7 @@ public class Config {
    */
   private static Config fromConfigFile() throws FileNotFoundException, ConfigException {
 
-    LOGGER.info("Reading " + MOD_NAME + " configuration from " + config_path);
+    LOGGER.debug("Reading " + MOD_NAME + " configuration from " + config_path);
     FileInputStream configReader = new FileInputStream(config_path.toFile());
     HashMap<String, Object> settings = new HashMap<>((new Yaml()).load(configReader));
 
