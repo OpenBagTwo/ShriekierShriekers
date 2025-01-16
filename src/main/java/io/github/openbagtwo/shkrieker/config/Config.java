@@ -30,13 +30,13 @@ public class Config {
   /**
    * Whether shriekers should cause darkness
    */
-  private boolean causeDarkness;
+  protected boolean causeDarkness;
 
   /**
    * Whether naturally-generated shriekers should be triggered by non-player sources
    * (will not increase warning level)
    */
-  private boolean applyToNatural;
+  protected boolean applyToNatural;
 
 
   /**
@@ -87,6 +87,27 @@ public class Config {
     this.setPrettyFlow(true);
     this.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
   }};
+
+  /**
+   * Write the configuration to file
+   * @throws ConfigException If the writer encounters any sort of IO error (permissions?)
+   */
+  protected void writeConfigToFile() throws ConfigException {
+    FileWriter configWriter;
+    try {
+      configWriter = new FileWriter(config_path.toFile());
+    } catch (IOException e) {
+      throw new ConfigException(
+          "Could not open " + config_path + " for writing.", e
+      );
+    }
+    Map<String, Object> writeme = new LinkedHashMap<>();
+    writeme.put("cause_darkness", this.causeDarkness);
+    writeme.put("apply_to_natural", this.applyToNatural);
+
+    (new Yaml(configFormat)).dump(writeme, configWriter);
+    LOGGER.info("Wrote " + MOD_NAME + " configuration file to " + config_path);
+  }
 
   /**
    * If the configuration cannot be read in from file for whatever reason, generate and return the
@@ -154,7 +175,7 @@ public class Config {
     }
   }
 
-  private static class ConfigException extends Exception {
+  protected static class ConfigException extends Exception {
 
     ConfigException(String message, Exception e) {
       super(message, e);

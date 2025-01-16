@@ -18,6 +18,9 @@
 	"entrypoints": {
 		"main": [
 			"io.github.openbagtwo.shkrieker.ShriekerMod"
+		],
+		"modmenu": [
+			"io.github.openbagtwo.shkrieker.config.ModMenu"
 		]
 	},
 	"mixins": [
@@ -25,7 +28,7 @@
 	],
 	"depends": {
 		"fabricloader": ">=0.15.0",
-		"minecraft": ">1.20.4",
+		"minecraft": ">1.20.4,<1.21",
 		"java": ">=21"
 	}
 }
