@@ -32,18 +32,32 @@ public class Config {
    */
   private boolean causeDarkness;
 
+  /**
+   * Whether naturally-generated shriekers should be triggered by non-player sources
+   * (will not increase warning level)
+   */
+  private boolean applyToNatural;
+
 
   /**
    * Determine whether shriekers should cause darkness
    */
-  public boolean getCauseDarkness() {
+  public boolean getCauseDarknessSetting() {
     return this.causeDarkness;
   }
 
   /**
-   * Default values (that aren't directly accessed by the mod)
+   * Determine whether to apply this mod to natually-generated shriekers
+   */
+  public boolean getApplyToNaturalSetting() {
+    return this.applyToNatural;
+  }
+
+  /**
+   * Default values
    */
   private static final boolean DEFAULT_CAUSE_DARKNESS = false;
+  private static final boolean DEFAULT_APPLY_TO_NATURAL = false;
 
   /**
    * Load the mod configuration, however you have to
@@ -82,6 +96,7 @@ public class Config {
     LOGGER.info("Loading default " + MOD_NAME + " configuration");
     Config config = new Config();
     config.causeDarkness = DEFAULT_CAUSE_DARKNESS;
+    config.applyToNatural = DEFAULT_APPLY_TO_NATURAL;
     return config;
   }
 
@@ -102,6 +117,7 @@ public class Config {
     }
     Map<String, Object> writeme = new LinkedHashMap<>();
     writeme.put("cause_darkness", DEFAULT_CAUSE_DARKNESS);
+    writeme.put("apply_to_natural", DEFAULT_APPLY_TO_NATURAL);
 
     (new Yaml(configFormat)).dump(writeme, configWriter);
     LOGGER.info("Wrote " + MOD_NAME + " configuration file to " + config_path);
@@ -124,9 +140,13 @@ public class Config {
       boolean causeDarkness = Boolean.parseBoolean(
           settings.getOrDefault("cause_darkness", DEFAULT_CAUSE_DARKNESS).toString()
       );
+      boolean applyToNatural = Boolean.parseBoolean(
+          settings.getOrDefault("apply_to_natural", DEFAULT_CAUSE_DARKNESS).toString()
+      );
 
       Config config = new Config();
       config.causeDarkness = causeDarkness;
+      config.applyToNatural = applyToNatural;
       return config;
 
     } catch (Exception e) {
