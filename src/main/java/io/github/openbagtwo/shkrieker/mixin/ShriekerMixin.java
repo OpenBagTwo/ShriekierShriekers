@@ -24,12 +24,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(SculkShriekerBlockEntity.class)
 public abstract class ShriekerMixin extends BlockEntity {
 
-  private final Config config;
+  private @Nullable Config config;
 
   public ShriekerMixin(BlockEntityType<?> type,
       BlockPos pos, BlockState state) {
     super(type, pos, state);
-    this.config = Config.loadConfiguration();
   }
 
   @Accessor("warningLevel")
@@ -51,11 +50,14 @@ public abstract class ShriekerMixin extends BlockEntity {
   )
   public void nonPlayerShriek(ServerWorld world, @Nullable ServerPlayerEntity player, CallbackInfo callbackInfo) {
     if (player == null) {
+      if (this.config == null) {
+        this.config = Config.loadConfiguration();
+      }
       BlockState blockState = ((SculkShriekerBlockEntity) (Object) this).getCachedState();
       if (blockState.get(SculkShriekerBlock.SHRIEKING).booleanValue()) {
         callbackInfo.cancel();
       }
-      if (!this.canWarn(world) || config.getApplyToNaturalSetting()) {
+      if (!this.canWarn(world) || this.config.getApplyToNaturalSetting()) {
         this.setWarningLevel(0);
         this.shriek(world, (Entity) null);
         if (this.config.getCauseDarknessSetting()) {
