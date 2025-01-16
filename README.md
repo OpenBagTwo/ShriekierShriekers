@@ -3,7 +3,7 @@
 ![server mod](https://img.shields.io/badge/Server\/Client-server-critical)
 ![mod loader: fabric](https://img.shields.io/badge/Mod_Loader-fabric%2Fquilt-a4cc37)
 [![build status](https://github.com/OpenBagTwo/ShriekierShriekers/actions/workflows/build.yml/badge.svg)](https://github.com/OpenBagTwo/ShriekierShriekers/actions/workflows/build.yml)
-![supported versions](https://img.shields.io/badge/Supported_Versions-1.20--1.21.2-blue)
+![supported versions](https://img.shields.io/badge/Supported_Versions-1.20--1.21.4-blue)
 [![Modrinth Downloads](https://img.shields.io/modrinth/dt/shriekier-shriekers)](https://modrinth.com/mod/shriekier-shriekers)
 
 _**Patches sculk shriekers so that they react to redstone-triggered signals**_
@@ -29,18 +29,30 @@ a bummer. So this mod patches that behavior so that a shrieker's shriek can be t
 - extremely audible notifications for when a redstone process has started or completed
 - or **The Mother of All Alarm Clocks**.
 
-### Planned Features
-Future updates may include the ability to configure this mod:
-- to allow naturally spawning (`can_summon=true`) shriekers to be triggered as well
-- to allow placed shriekers inflict the Darkness effect
+### Optional Features
+You can further configure this mod in two ways:
+- enabling "synthetic shrieks" to cause the darkness effect to players within range
+- enabling naturally spawning shriekers (`can_summon=true`) to be triggered by redstone and mobs
+  (though note that this **cannot** be used to summon wardens and)
+
+To enable these features, either install ModMenu and change the settings there, or edit
+`shriekier_shriekers.yaml` in your instance's `config` folder to contain one or both of these lines,
+depending on your preference:
+```yaml
+cause_darkness: true
+apply_to_natural: true
+```
+
+(both will be `false` by default)
 
 ## Installation, Usage and Compatibility
 For multiplayer, this mod only needs to be installed **server-side**, and, assuming no other mods
 are installed on the server, is confirmed working for vanilla clients.
 
 There are currently two builds for this mod:
-- The 1.20.1 version has been verified to be compatible with Minecraft 1.20, 1.20.1 and 1.20.4,
-- The 1.20.5 version has been verified working with 1.20.5-1.21.2. It may also be compatible with
+- The 1.20.1 version has been verified to be compatible with Minecraft 1.20-1.20.4,
+- The 1.20.5 version has been verified working with 1.20.5-1.20.6.
+- The 1.21 version has been verified working up to 1.21.4. It may also be compatible with
   future versions and  snapshots (if you find that it isn't, please
   [file a bug report!](https://github.com/OpenBagTwo/ShriekierShriekers/issues/new)).
 
