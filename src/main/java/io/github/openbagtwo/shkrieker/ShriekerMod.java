@@ -6,6 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ShriekerMod implements ModInitializer {
+
+		public static final String MOD_ID = "shriekier-shriekers";
+		public static final String MOD_NAME = "Shriekier Shriekers";
     public static final Logger LOGGER = LoggerFactory.getLogger("shriekier-shriekers");
 
 	@Override
