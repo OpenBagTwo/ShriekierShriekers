@@ -1,6 +1,5 @@
 package io.github.openbagtwo.shkrieker.mixin;
 
-import io.github.openbagtwo.shkrieker.ShriekerMod;
 import io.github.openbagtwo.shkrieker.config.Config;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SculkShriekerBlock;
@@ -25,6 +24,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(SculkShriekerBlockEntity.class)
 public abstract class ShriekerMixin extends BlockEntity {
 
+  private @Nullable Config config;
+
   public ShriekerMixin(BlockEntityType<?> type,
       BlockPos pos, BlockState state) {
     super(type, pos, state);
@@ -48,18 +49,21 @@ public abstract class ShriekerMixin extends BlockEntity {
       cancellable = true
   )
   public void nonPlayerShriek(ServerWorld world, @Nullable ServerPlayerEntity player, CallbackInfo callbackInfo) {
-    if (!this.canWarn(world)) {
+    if (player == null) {
+      if (this.config == null) {
+        this.config = Config.loadConfiguration();
+      }
       BlockState blockState = ((SculkShriekerBlockEntity) (Object) this).getCachedState();
       if (blockState.get(SculkShriekerBlock.SHRIEKING).booleanValue()) {
         callbackInfo.cancel();
       }
-
-      this.setWarningLevel(0);
-      if (player == null) {
+      if (!this.canWarn(world) || this.config.getApplyToNaturalSetting()) {
+        this.setWarningLevel(0);
         this.shriek(world, (Entity) null);
-        if (Config.loadConfiguration().getCauseDarkness()) {
+        if (this.config.getCauseDarknessSetting()) {
           this.playWarningSound(world);
-          WardenEntity.addDarknessToClosePlayers(world, Vec3d.ofCenter(this.getPos()), (Entity) null,
+          WardenEntity.addDarknessToClosePlayers(world, Vec3d.ofCenter(this.getPos()),
+              (Entity) null,
               40);
         }
         callbackInfo.cancel();
