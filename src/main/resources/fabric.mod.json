@@ -18,17 +18,14 @@
 	"entrypoints": {
 		"main": [
 			"io.github.openbagtwo.shkrieker.ShriekerMod"
-		],
-		"modmenu": [
-			"io.github.openbagtwo.shkrieker.config.ModMenu"
 		]
 	},
 	"mixins": [
 		"shriekier-shriekers.mixins.json"
 	],
 	"depends": {
-		"fabricloader": ">=0.15.0",
-		"minecraft": ">1.20.4,<1.21",
-		"java": ">=21"
+		"fabricloader": ">=0.14.21",
+		"minecraft": ">=1.20 <1.20.4",
+		"java": ">=17"
 	}
 }
