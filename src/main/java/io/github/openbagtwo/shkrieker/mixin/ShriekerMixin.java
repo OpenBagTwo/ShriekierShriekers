@@ -1,18 +1,18 @@
 package io.github.openbagtwo.shkrieker.mixin;
 
 import io.github.openbagtwo.shkrieker.config.Config;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SculkShriekerBlock;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.block.entity.SculkShriekerBlockEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.mob.WardenEntity;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.monster.warden.Warden;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.SculkShriekerBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.SculkShriekerBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -35,34 +35,34 @@ public abstract class ShriekerMixin extends BlockEntity {
   abstract void setWarningLevel(int level);
 
   @Shadow
-  abstract boolean canWarn(ServerWorld world);
+  protected abstract boolean canRespond(ServerLevel world);
 
   @Shadow
-  abstract void playWarningSound(World world);
+  protected abstract void playWardenReplySound(Level world);
 
   @Shadow
-  abstract void shriek(ServerWorld world, @Nullable Entity entity);
+  protected abstract void shriek(ServerLevel world, @Nullable Entity entity);
 
   @Inject(
-      method="shriek(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/server/network/ServerPlayerEntity;)V",
+      method="tryShriek(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/server/level/ServerPlayer;)V",
       at=@At("HEAD"),
       cancellable = true
   )
-  public void nonPlayerShriek(ServerWorld world, @Nullable ServerPlayerEntity player, CallbackInfo callbackInfo) {
+  public void nonPlayerShriek(ServerLevel world, @Nullable ServerPlayer player, CallbackInfo callbackInfo) {
     if (player == null) {
       if (this.config == null) {
         this.config = Config.loadConfiguration();
       }
-      BlockState blockState = ((SculkShriekerBlockEntity) (Object) this).getCachedState();
-      if (blockState.get(SculkShriekerBlock.SHRIEKING).booleanValue()) {
+      BlockState blockState = ((SculkShriekerBlockEntity) (Object) this).getBlockState();
+      if (blockState.getValue(SculkShriekerBlock.SHRIEKING).booleanValue()) {
         callbackInfo.cancel();
       }
-      if (!this.canWarn(world) || this.config.getApplyToNaturalSetting()) {
+      if (!this.canRespond(world) || this.config.getApplyToNaturalSetting()) {
         this.setWarningLevel(0);
         this.shriek(world, (Entity) null);
         if (this.config.getCauseDarknessSetting()) {
-          this.playWarningSound(world);
-          WardenEntity.addDarknessToClosePlayers(world, Vec3d.ofCenter(this.getPos()),
+          this.playWardenReplySound(world);
+          Warden.applyDarknessAround(world, Vec3.atCenterOf(this.getBlockPos()),
               (Entity) null,
               40);
         }

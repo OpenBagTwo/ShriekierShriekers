@@ -1,40 +1,40 @@
 package io.github.openbagtwo.shkrieker.mixin;
 
 import java.util.Optional;
-import net.minecraft.block.SculkShriekerBlock;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.SculkShriekerBlockEntity;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.event.GameEvent;
-import net.minecraft.world.event.PositionSource;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.SculkShriekerBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.SculkShriekerBlockEntity;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.gameevent.PositionSource;
+import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(targets="net.minecraft.block.entity.SculkShriekerBlockEntity$VibrationCallback")
+@Mixin(targets="net.minecraft.world.level.block.entity.SculkShriekerBlockEntity$VibrationUser")
 abstract class ShriekerVibeMixin {
 
   @Accessor
-  abstract PositionSource getPositionSource();
+  public abstract PositionSource getPositionSource();
 
   /**
    * @author OpenBagTwo
    * @reason Bypass the check for whether the event was caused by a player
    */
   @Overwrite
-  public boolean accepts(ServerWorld world, BlockPos pos, RegistryEntry<GameEvent> event, GameEvent.Emitter emitter){
-    Optional<Vec3d> position = this.getPositionSource().getPos(world);
+  public boolean canReceiveVibration(ServerLevel world, BlockPos pos, Holder<GameEvent> event, GameEvent.Context emitter){
+    Optional<Vec3> position = this.getPositionSource().getPosition(world);
     if (position.isEmpty()){
       return false;
     }
     BlockEntity shkrieker = world.getBlockEntity(
         new BlockPos(
-            (int) Math.floor(position.get().getX()),
-            (int) Math.floor(position.get().getY()),
-            (int) Math.floor(position.get().getZ())
+            (int) Math.floor(position.get().x()),
+            (int) Math.floor(position.get().y()),
+            (int) Math.floor(position.get().z())
         )
     );
     if (shkrieker == null) {
@@ -44,7 +44,7 @@ abstract class ShriekerVibeMixin {
       return false;
     }
 
-    return !shkrieker.getCachedState().getOrEmpty(SculkShriekerBlock.SHRIEKING).orElse(true);
+    return !shkrieker.getBlockState().getOptionalValue(SculkShriekerBlock.SHRIEKING).orElse(true);
   }
 
 
